@@ -20,7 +20,7 @@ function prevLocationsShow  (){
 
 // get weather data from user input for present day api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}
 function getWeather(city){
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=7e3154185511d5ccdc5d2529706fdf8f&units=imperial";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=7e3154185511d5ccdc5d2529706fdf8f&units=imperial";
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -31,7 +31,7 @@ function getWeather(city){
         $("#forecastData").append(cardCurrentCity);
 
         // Head of card = location from user input 
-        var locationHead=$("<div>").attri("class","card-header").text("Current weather: " + response.name);
+        var locationHead=$("<div>").attr("class","card-header").text("Current weather: " + response.name);
         cardCurrentCity.append(locationHead);
 
         //  row needs to be created to add icons 
@@ -39,8 +39,9 @@ function getWeather(city){
         cardCurrentCity.append(cardRows);
 
         // get icons 
-        var icon=  "https://openweathermap.org/img/wn/" + response.weather[0].icon+"@2x.pg";
+        var icon=  "https://openweathermap.org/img/wn/" + response.weather[0].icon+ "@2x.png";
         var imgIcon= $("<div>").attr("class","col-md-4").append($("<img>").attr("src",icon).attr("class","card-img"));
+        cardRows.append(imgIcon);
 
         // add text space 
         var textSpace = $("<div>").attr("class","col-md-8");
@@ -60,10 +61,12 @@ function getWeather(city){
 
         // Wind speed in MPH 
         body.append($("<p>").attr("class","card-text").text("Winds: "+ response.wind.speed+"MPH"));
+
+        cardRows.append(textSpace);
+        getWeather(response.id);
     });
 
-    cardRows.append(textSpace);
-    getWeather(response.id);
+
     
 }
 
